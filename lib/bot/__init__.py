@@ -8,6 +8,7 @@ import aiohttp
 from discord.ext.commands import CommandNotFound, when_mentioned_or
 from ..db import db
 from glob import glob
+from discord.utils import find
 
 
 # PREFIX = "$"
@@ -28,7 +29,7 @@ class Ready(object):
 
     def ready_up(self, cog):
         setattr(self, cog, True)
-        print(f"[COGS] > [STEGOBRANCH] > {cog} Cog Ready.")
+        print(f"[COGS] > [StegoBranch] > {cog} Cog Ready.")
 
     def all_ready(self):
         # return all([getattr(self, cog) for cog in COGS])
@@ -50,7 +51,7 @@ class Bot(BotBase):
         intents = Intents()
         intents.members = True
 
-        super().__init__(command_prefix=get_prefix, owner_ids=OWNER_IDS)
+        super().__init__(command_prefix="$", owner_ids=OWNER_IDS)
 
 
     def setup(self):
@@ -103,6 +104,14 @@ class Bot(BotBase):
 
     # Events Handlers
     # --------------
+    # on_guild_join
+    async def on_guild_join(self, guild):
+        # Add to GuildDB
+        print(guild.id)
+        db.execute("UPDATE guilds SET Prefix = ? WHERE GuildID = ?", "$", guild.id)
+        print("new guild")
+
+
     # on_connect --> prints to console
     async def on_connect(self):
         print("[API] > [StegoBranch] > Connected to Discord API Gateway")

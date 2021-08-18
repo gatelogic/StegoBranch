@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS guilds (
     GuildID integer PRIMARY KEY,
-    Prefix text DEFUALT "$",
-)
+    Prefix text DEFUALT "$"
+);
 
 CREATE TABLE IF NOT EXISTS exp (
     UserID integer PRIMARY KEY,
